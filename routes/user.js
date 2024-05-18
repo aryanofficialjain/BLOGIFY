@@ -9,30 +9,48 @@ router.get("/signup", (req, res) => {
 
 router.post("/signup", async (req, res) => {
   const { fullName, email, password } = req.body;
-  const createduser = await User.create({ fullName, email, password });
-  if (!createduser) {
-    return res
-      .redirect("Signup")
-      .status(404)
-      .json({ message: "cannot created account" });
+  try {
+    const createduser = await User.create({ fullName, email, password });
+    if (!createduser) {
+      return res
+        .redirect("Signup")
+        .status(404)
+        .json({ message: "cannot created account" });
+    }
+  
+    return res.redirect("/user/login");
+  } catch (error) {
+    console.log(Error, error);
+    res.render("Signup", {
+      error: "cannot created your account",
+    });
+    
   }
-
-  return res.redirect("/");
 });
 
 router.get("/login", (req, res) => {
   return res.render("Login");
 });
 
-router.post("/login", (req, res) => {
+router.post("/login", async (req, res) => {
   const { email, password } = req.body;
-  const finduser = User.findOne(email, password);
+  // const finduser = User.findOne(email, password);
+  try {
+    const token = await User.matchPasswordAndGenerateToken(email, password);
 
-  if (!finduser) {
-    res.render("Signup");
+    console.log("Token", token);
+
+    if (!token) {
+      res.render("Login");
+    }
+
+    return res.cookie("token", token).redirect("/");
+  } catch (error) {
+    console.log(Error, error);
+    res.render("Login", {
+      error: "Incorrect Email or Password",
+    });
   }
-
-  return res.send("You are logged in")
 });
 
 module.exports = router;
