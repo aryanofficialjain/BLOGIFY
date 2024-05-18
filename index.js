@@ -3,9 +3,20 @@ const app = express();
 const userRoute = require("./routes/user");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
+const path = require("path")
+
 const {
   checkForAuthenticationCookie,
 } = require("./middlewares/authentication");
+
+app.use(express.static(path.resolve("./public/uploads")))
+
+
+const Blog = require('./models/blog');
+
+
+const blogRoute = require("./routes/blog");
+
 
 const PORT = 8000;
 app.set("view engine", "ejs");
@@ -19,12 +30,15 @@ mongoose
   .catch((err) => console.log("Error while connectong mongoDB", err));
 
 app.use("/user", userRoute);
+app.use("/blog", blogRoute);
 app.use(cookieParser());
 app.use(checkForAuthenticationCookie("token"));
 
-app.get("/", (req, res) => {
+app.get("/", async(req, res) => {
+	const allBlogs = await Blog.find({})
   res.render("Home", {
     user: req.user,
+	blogs: allBlogs,
   });
   console.log(req.user);
 });
