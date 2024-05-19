@@ -29,7 +29,8 @@
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-            <%= JSON.stringify(user.name) %>
+            <!-- <img src="<%= user.profileImageURL %>" alt=""> -->
+            <%= user.name %>
             </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="/user/logout">Logout</a></li>

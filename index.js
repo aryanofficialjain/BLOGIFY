@@ -9,7 +9,7 @@ const {
   checkForAuthenticationCookie,
 } = require("./middlewares/authentication");
 
-app.use(express.static(path.resolve("./public/uploads")))
+app.use(express.static(path.resolve("./public")))
 
 
 const Blog = require('./models/blog');
@@ -38,9 +38,9 @@ app.get("/", async(req, res) => {
 	const allBlogs = await Blog.find({})
   res.render("Home", {
     user: req.user,
-	blogs: allBlogs,
+	blog: allBlogs,
   });
-  console.log(req.user);
+  console.log(allBlogs);
 });
 
 app.listen(PORT, () => {

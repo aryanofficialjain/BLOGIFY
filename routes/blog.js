@@ -26,6 +26,8 @@ router.get('/add-new', (req,res) => {
     })
 })
 
+
+
 router.post('/', upload.single("coverImage"), async(req,res) => {
     // console.log(req.body);
     // console.log(req.file);
@@ -36,8 +38,9 @@ router.post('/', upload.single("coverImage"), async(req,res) => {
         body,
         title,
         createdBy: req.id,
-        coverImageURL: `upload/${req.file.filename}`
+        coverImageURL: `uploads/${req.file.filename}`,
     })    
+    console.log(blog);
 
     return res.redirect(`/blog${blog._id}`);
 

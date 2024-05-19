@@ -10,13 +10,17 @@
     <%- include('./partials/nav') %>
     <!-- <%= JSON.stringify(user) %> -->
     <div class="container mt-4">
-      <% blogs.forEach(blog => { %>
-      <div class="card" style="width: 18rem">
-        <img src="<%= blog.coverImageURL %>" alt="Card image cap" />
-        <div class="card-body">
-          <h5 class="card-title"><%= blog.title %></h5>
-          <a href="/blog/<%= blog._id %>" class="btn btn-primary">Read More</a>
-        </div>
+      <div class="row">
+        <% blog.forEach(blog => { %>
+          <div class="col-md-3 mb-4">
+            <div class="card">
+              <img src="<%= blog.coverImageURL %>" class="card-img-top" alt="Card image cap" />
+              <div class="card-body">
+                <h5 class="card-title"><%= blog.title %></h5>
+                <a href="/blog/<%= blog._id %>" class="btn btn-primary">Read More</a>
+              </div>
+            </div>
+          </div>
         <% }) %>
       </div>
     </div>
