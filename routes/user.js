@@ -1,5 +1,8 @@
 const { Router } = require("express");
 const User = require("../models/user");
+const {
+  checkForAuthenticationCookie,
+} = require("../middlewares/authentication");
 
 const router = Router();
 
@@ -17,14 +20,13 @@ router.post("/signup", async (req, res) => {
         .status(404)
         .json({ message: "cannot created account" });
     }
-  
+
     return res.redirect("/user/login");
   } catch (error) {
     console.log(Error, error);
     res.render("Signup", {
       error: "cannot created your account",
     });
-    
   }
 });
 
@@ -53,8 +55,11 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get('/logout', (req,res) => {
-  res.clearCookie('token').redirect("/")
-})
+router.get("/logout", (req, res) => {
+  res.clearCookie("token").redirect("/");
+});
+
+
+
 
 module.exports = router;

@@ -1,22 +1,21 @@
 const express = require("express");
 const app = express();
 const userRoute = require("./routes/user");
+const profileRoute = require("./routes/profile");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
-const path = require("path")
+const path = require("path");
 
 const {
   checkForAuthenticationCookie,
 } = require("./middlewares/authentication");
 
-app.use(express.static(path.resolve("./public")))
+app.use(express.static(path.resolve("./public")));
 
-
-const Blog = require('./models/blog');
-
+const Blog = require("./models/blog");
+const User = require("./models/user");
 
 const blogRoute = require("./routes/blog");
-
 
 const PORT = 8000;
 app.set("view engine", "ejs");
@@ -29,18 +28,20 @@ mongoose
   .then((e) => console.log("MongoDB Connected Succesfully"))
   .catch((err) => console.log("Error while connectong mongoDB", err));
 
-app.use("/user", userRoute);
-app.use("/blog", blogRoute);
+  
 app.use(cookieParser());
 app.use(checkForAuthenticationCookie("token"));
+app.use("/user", userRoute);
+app.use("/blog", blogRoute);
+app.use("/profile", profileRoute);
 
-app.get("/", async(req, res) => {
-	const allBlogs = await Blog.find({})
+app.get("/", async (req, res) => {
+  const allBlogs = await Blog.find({});
   res.render("Home", {
     user: req.user,
-	blog: allBlogs,
+    blog: allBlogs,
   });
-  console.log(allBlogs);
+  // console.log(allBlogs);
 });
 
 app.listen(PORT, () => {
