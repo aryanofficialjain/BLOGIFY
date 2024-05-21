@@ -6,7 +6,6 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const bodyParser = require("body-parser")
-const methodOverride = require('method-override');
 
 const {
   checkForAuthenticationCookie,
@@ -22,7 +21,6 @@ const blogRoute = require("./routes/blog");
 const PORT = 8000;
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
-app.use(methodOverride('_method'));
 mongoose
   .connect(
     "mongodb+srv://7985447692:7985447692@cluster0.ufxdpfz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0/blogify"
