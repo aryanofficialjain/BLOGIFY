@@ -8,19 +8,27 @@ router.get("/", async (req, res) => {
     const userId = req.user.id;
     // console.log(userId)
     const user = await User.findById(userId);
-  
+
     if (!user) {
       return res.render("Login");
     }
-  
+
     res.render("Profile", {
       user: req.user,
     });
   } catch (error) {
     console.log("Error", error);
-    return res.render('Signup')
-    
   }
 });
+
+router.get("/:id", async (req, res) => {
+  const id = req.params.id
+  const user = await User.findById(id);
+
+    res.render("Update", {
+    user,
+  });
+});
+
 
 module.exports = router;
