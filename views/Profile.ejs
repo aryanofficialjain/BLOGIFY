@@ -10,7 +10,8 @@
     <%- include('./partials/nav') %> 
     <%= (user.name) %>
     <%= (user.email) %>
-    <%= (user.profileImage) %>
+    <img src="<%= user.profileImageURL %>" alt="Profile Image">
+
     
 
     <%- include('./partials/script') %>
