@@ -1,3 +1,5 @@
+require('dotenv').config(); 
+
 const express = require("express");
 const app = express();
 const userRoute = require("./routes/user");
@@ -18,13 +20,11 @@ const User = require("./models/user");
 
 const blogRoute = require("./routes/blog");
 
-const PORT = 8000;
+const PORT = process.env.PORT;
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 mongoose
-  .connect(
-    "mongodb+srv://7985447692:7985447692@cluster0.ufxdpfz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0/blogify"
-  )
+  .connect(process.env.MONGODB_URL)
   .then((e) => console.log("MongoDB Connected Succesfully"))
   .catch((err) => console.log("Error while connectong mongoDB", err));
 
